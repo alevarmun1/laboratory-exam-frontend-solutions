@@ -16,8 +16,8 @@ export default function CreateProductScreen ({ navigation, route }) {
   const [open, setOpen] = useState(false)
   const [productCategories, setProductCategories] = useState([])
   const [backendErrors, setBackendErrors] = useState()
-
-  const initialProductValues = { name: '', description: '', price: 0, order: 0, restaurantId: route.params.id, productCategoryId: null, availability: true }
+  // SOLUTION
+  const initialProductValues = { name: '', description: '', price: 0, order: 0, restaurantId: route.params.id, productCategoryId: null, availability: true, featured: true }
   const validationSchema = yup.object().shape({
     name: yup
       .string()
@@ -30,7 +30,10 @@ export default function CreateProductScreen ({ navigation, route }) {
     order: yup
       .number()
       .positive('Please provide a positive cost value')
-      .integer('Please provide an integer cost value')
+      .integer('Please provide an integer cost value'),
+    // SOLUTION not required
+    promoted: yup
+      .boolean()
   })
 
   useEffect(() => {
@@ -136,6 +139,17 @@ export default function CreateProductScreen ({ navigation, route }) {
                 style={styles.switch}
                 onValueChange={value =>
                   setFieldValue('availability', value)
+                }
+              />
+              <TextRegular>Is is featured?</TextRegular>
+              <Switch
+                trackColor={{ false: brandSecondary, true: brandPrimary }}
+                thumbColor={values.featured ? brandSecondary : '#f4f3f4'}
+                // onValueChange={toggleSwitch}
+                value={values.featured}
+                style={styles.switch}
+                onValueChange={value =>
+                  setFieldValue('featured', value)
                 }
               />
 

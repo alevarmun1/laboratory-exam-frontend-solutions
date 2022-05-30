@@ -67,6 +67,7 @@ export default function RestaurantDetailScreen ({ navigation, route }) {
         imageUri={item.image ? { uri: process.env.API_BASE_URL + '/' + item.image } : undefined}
         title={item.name}
       >
+        { item.featured && <TextRegular textStyle={styles.featuredText} numberOfLines={2}>Featured</TextRegular>}
         <TextRegular numberOfLines={2}>{item.description}</TextRegular>
         <TextSemiBold textStyle={styles.price}>{item.price.toFixed(2)}€</TextSemiBold>
       </ImageCard>
@@ -146,5 +147,12 @@ const styles = StyleSheet.create({
     color: brandSecondary,
     textAlign: 'center',
     marginLeft: 5
+  },
+  // SOLUTION
+  featuredText: {
+    fontSize: 12,
+    color: brandPrimary,
+    textAlign: 'right',
+    marginRight: 5
   }
 })
