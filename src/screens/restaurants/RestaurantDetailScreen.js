@@ -69,6 +69,13 @@ export default function RestaurantDetailScreen ({ navigation, route }) {
       >
         <TextRegular numberOfLines={2}>{item.description}</TextRegular>
         <TextSemiBold textStyle={styles.price}>{item.price.toFixed(2)}€</TextSemiBold>
+        {/* Solution */}
+        {item.fats && <TextSemiBold>Nutritional composition:</TextSemiBold>}
+        {item.fats && <View style={{ flexDirection: 'row', paddingLeft: 10 }}><TextSemiBold>Fats: </TextSemiBold> <TextRegular>{item.fats.toFixed(2)}</TextRegular></View>}
+        {item.proteins && <View style={{ flexDirection: 'row', paddingLeft: 10 }}><TextSemiBold>Proteins: </TextSemiBold> <TextRegular>{item.proteins.toFixed(2)}</TextRegular></View>}
+        {item.carbohydrates && <View style={{ flexDirection: 'row', paddingLeft: 10 }}><TextSemiBold>Carbohydrates: </TextSemiBold> <TextRegular>{item.carbohydrates.toFixed(2)}</TextRegular></View>}
+        {item.calories && <View style={{ flexDirection: 'row', paddingLeft: 10 }}><TextSemiBold>Calories: </TextSemiBold> <TextRegular>{item.calories.toFixed(2)}</TextRegular></View>}
+
       </ImageCard>
     )
   }
