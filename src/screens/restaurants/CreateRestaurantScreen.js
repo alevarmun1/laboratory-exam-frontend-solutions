@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Image, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native'
+import { Image, Platform, Pressable, ScrollView, StyleSheet, View, Switch } from 'react-native'
 import * as ExpoImagePicker from 'expo-image-picker'
 import * as yup from 'yup'
 import DropDownPicker from 'react-native-dropdown-picker'
@@ -18,7 +18,8 @@ export default function CreateRestaurantScreen ({ navigation }) {
   const [restaurantCategories, setRestaurantCategories] = useState([])
   const [backendErrors, setBackendErrors] = useState()
 
-  const initialRestaurantValues = { name: '', description: '', address: '', postalCode: '', url: '', shippingCosts: 0, email: '', phone: '', restaurantCategoryId: '' }
+  // SOLUTION
+  const initialRestaurantValues = { name: '', description: '', address: '', postalCode: '', url: '', shippingCosts: 0, email: '', phone: '', restaurantCategoryId: '', promoted: true }
   const validationSchema = yup.object().shape({
     name: yup
       .string()
@@ -202,6 +203,18 @@ export default function CreateRestaurantScreen ({ navigation }) {
                 <Image style={styles.image} source={values.heroImage ? { uri: values.heroImage.uri } : restaurantBackground} />
               </Pressable>
 
+              {/* SOLUTION */}
+              <TextRegular>Is it promoted?</TextRegular>
+              <Switch
+                trackColor={{ false: brandSecondary, true: brandPrimary }}
+                thumbColor={values.promoted ? brandSecondary : '#f4f3f4'}
+                value={values.promoted}
+                style={styles.switch}
+                onValueChange={value =>
+                  setFieldValue('promoted', value)
+                }
+              />
+
               {backendErrors &&
                 backendErrors.map((error, index) => <TextError key={index}>{error.msg}</TextError>)
               }
@@ -253,6 +266,10 @@ const styles = StyleSheet.create({
     height: 100,
     borderWidth: 1,
     alignSelf: 'center',
+    marginTop: 5
+  },
+  // SOLUTION
+  switch: {
     marginTop: 5
   }
 })
