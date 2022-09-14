@@ -1,12 +1,12 @@
 /* eslint-disable react/prop-types */
 import React, { useContext, useEffect, useState } from 'react'
-import { StyleSheet, FlatList, Pressable } from 'react-native'
+import { StyleSheet, FlatList, Pressable, View } from 'react-native'
 import { getAll } from '../../api/RestaurantEndpoints'
 import ImageCard from '../../components/ImageCard'
 import TextSemiBold from '../../components/TextSemibold'
 import TextRegular from '../../components/TextRegular'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-import { brandPrimary, brandPrimaryTap, brandSecondary, flashStyle, flashTextStyle, brandSuccess } from '../../styles/GlobalStyles'
+import { brandPrimary, brandPrimaryTap, brandSecondary, flashStyle, flashTextStyle, brandSuccess, brandBackground } from '../../styles/GlobalStyles'
 import { AuthorizationContext } from '../../context/AuthorizationContext'
 import { showMessage } from 'react-native-flash-message'
 
@@ -44,19 +44,22 @@ export default function RestaurantsScreen ({ navigation, route }) {
           navigation.navigate('RestaurantDetailScreen', { id: item.id })
         }}
       >
-          {/* SOLUTION */}
-            {item.isInexpensive &&
-            <TextRegular textStyle={{ color: brandSuccess, textAlign: 'right' }}>Económico!</TextRegular>
-            }
-            {!item.isInexpensive &&
-            <TextRegular textStyle={{ color: brandPrimary, textAlign: 'right' }}>€€</TextRegular>
-            }
 
         <TextRegular numberOfLines={2}>{item.description}</TextRegular>
         {item.averageServiceMinutes !== null &&
           <TextSemiBold>Avg. service time: <TextSemiBold textStyle={{ color: brandPrimary }}>{item.averageServiceMinutes} min.</TextSemiBold></TextSemiBold>
         }
-        <TextSemiBold>Shipping: <TextSemiBold textStyle={{ color: brandPrimary }}>{item.shippingCosts.toFixed(2)}€</TextSemiBold></TextSemiBold>
+         {/* SOLUTION */}
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }} >
+            <TextSemiBold>Shipping: <TextSemiBold textStyle={{ color: brandPrimary }}>{item.shippingCosts.toFixed(2)}€</TextSemiBold></TextSemiBold>
+            {item.isInexpensive &&
+                <TextRegular textStyle={[styles.badge, { color: brandSuccess, borderColor: brandSuccess }] }>€</TextRegular>
+            }
+            {!item.isInexpensive &&
+            <TextRegular textStyle={[styles.badge, { color: brandPrimary, borderColor: brandPrimary }] }>€€</TextRegular>
+            }
+        </View>
+         {/* END SOLUTION */}
       </ImageCard>
     )
   }
@@ -128,5 +131,14 @@ const styles = StyleSheet.create({
   emptyList: {
     textAlign: 'center',
     padding: 50
+  },
+  // Solucion
+  badge: {
+    textAlign: 'center',
+    borderWidth: 2,
+    width: 45,
+    paddingVertical: 2,
+    paddingHorizontal: 10,
+    borderRadius: 10
   }
 })
